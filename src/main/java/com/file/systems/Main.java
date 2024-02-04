@@ -2,6 +2,7 @@ package com.file.systems;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class Main {
@@ -10,7 +11,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		FileContentReverser fileContentReverser = new FileContentReverser(new DefaultFileOperations());
+		FileContentReverser fileContentReverser = new FileContentReverser(new FileOperationsImpl());
+		
 		try {
 			// Read file content
 			StringBuilder fileContent = fileContentReverser.readFileContent("/input/ascii_input.txt");
@@ -19,9 +21,9 @@ public class Main {
 			String reverseFileContent = fileContentReverser.reverseFileContent(fileContent);
 			 
 			// Write file content to out.txt file
-			fileContentReverser.writeFileContent(reverseFileContent, "./output.txt");
+			Path path = fileContentReverser.writeFileContent(reverseFileContent, "output.txt");
 			
-			logger.info("File content reversed & save to output file.");
+			logger.info("File content reversed & saved to output file path :: " + path.toUri());
 			
 		} catch (IOException | URISyntaxException e) {
 			logger.severe("Error occurred while performing operation on file system" + e.getMessage());
